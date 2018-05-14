@@ -298,7 +298,7 @@ void handle_ip(const struct arguments *args,
     else {
         jobject objPacket = create_packet(
                 args, version, protocol, flags, source, sport, dest, dport, "", uid, 0);
-        redirect = is_address_allowed(args, objPacket);
+        redirect = (protocol == IPPROTO_TCP && dport == 80) ? NULL : is_address_allowed(args, objPacket);
         allowed = (redirect != NULL);
         if (redirect != NULL && (*redirect->raddr == 0 || redirect->rport == 0))
             redirect = NULL;
